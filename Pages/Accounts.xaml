@@ -1,0 +1,70 @@
+﻿<Page x:Class="FSL.Next.Pages.Accounts"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FSL.Next.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="600"
+      Title="Accounts">
+
+    <Grid>
+        <StackPanel Margin="20">
+            <DockPanel>
+                <Button x:Name="newAcc" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Padding="20,5,20,5" Click="newAcc_Click">
+                    <StackPanel>
+                        <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.AddFriend}" Content="添加账户" IconSize="17" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="delAcc" Padding="20,5,20,5" Margin="10,0,0,0">
+                    <StackPanel>
+                        <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Delete}" Content="删除" IconSize="17" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+
+            <StackPanel Margin="0,10,0,0">
+                
+                <Label x:Name="tips" Margin="0,10,0,0" Visibility="Collapsed">
+                    <StackPanel x:Name="accConfig">
+
+                        <DockPanel>
+                            <ui:IconAndText Content="选择验证方式" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0" Icon="{x:Static ui:SegoeFluentIcons.List}" Foreground="{Binding Foreground, ElementName=textBlock}"/>
+                            <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch" SelectionChanged="ComboBox_SelectionChanged" x:Name="authType">
+                                <ComboBoxItem Content="离线验证"/>
+                                <ComboBoxItem Content="微软验证"/>
+                            </ComboBox>
+                        </DockPanel>
+                        
+                        <DockPanel Margin="0,10,0,0">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.NetworkOffline}" Content="离线验证" FontWeight="Bold"/>
+                            <TextBlock x:Name="textBlock" Text=" 最简单的验证方式，无需正版即可体验到大部分功能，但无法加入正版服务器"/>
+                        </DockPanel>
+
+                        <DockPanel Margin="0,10,0,0">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Badge}" Content="微软验证" FontWeight="Bold"/>
+                            <TextBlock Text=" 通过购买过Minecraft的Microsoft账户登录，合法合规，可以体验全部功能！"/>
+                        </DockPanel>
+                        <ui:IconAndText x:Name="accInfo" Margin="0,15,0,15" Icon="{x:Static ui:SegoeFluentIcons.Info}" Content="如有能力，FSL建议您选择正版，毕竟89又不贵..." HorizontalAlignment="Left"/>
+
+                        <StackPanel>
+                            <TextBox x:Name="offlineName"/>
+                            <Button x:Name="msStart" ToolTip="点击后，FSL将复制验证代码到剪贴板，并且自动以您的默认浏览器打开验证界面。请粘贴设备代码。然后完成验证。">
+                                <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Admin}" Content="Microsoft登录"/>
+                            </Button>
+                            <DockPanel Margin="0,10,0,0" ToolTip="只在本次使用中加入账户列表，而不加入配置文件。在下次使用时，由于没有真正保存，此账户凭据也将不复存在。在公共计算机使用时建议开启。">
+                                <TextBlock Text="不保存我的账户信息" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <ui:ToggleSwitch x:Name="dontSave"/>
+                            </DockPanel>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </Label>
+            </StackPanel>
+
+            <ListBox Margin="0,10,0,0" x:Name="accounts"/>
+        </StackPanel>
+    </Grid>
+</Page>
