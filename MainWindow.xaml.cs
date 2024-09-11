@@ -22,6 +22,12 @@ namespace FSL.Next
     {
         Pages.Mainpage mainpage = new();
         Pages.Accounts accounts = new();
+        Pages.More more = new();
+
+        public class info
+        {
+            public static string version { get; set; } = "v1.0.0";
+        }
 
         public MainWindow()
         {
@@ -64,6 +70,14 @@ namespace FSL.Next
             nav.Content = new Frame()
             {
                 Content = accounts
+            };
+        }
+
+        private void moreNav_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            nav.Content = new Frame()
+            {
+                Content = more
             };
         }
     }
