@@ -21,6 +21,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace FSL.Next.Pages
 {
@@ -55,6 +56,11 @@ namespace FSL.Next.Pages
 
             mbGsContent.Text = json.Content;
             mbGsAuthor.Text = "——" + json.Source;
+        }
+
+        private void OpenSource(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = "https://github.com/TeamFSC/FSL.Next" });
         }
     }
 }

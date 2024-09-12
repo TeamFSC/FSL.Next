@@ -39,6 +39,8 @@ namespace FSL.Next.Pages
             InitializeComponent();
             tips.Visibility = Visibility.Collapsed;
 
+            // 加载账户配置
+
             try
             {
                 string[] content = File.ReadAllLines("./config/accounts.fsl");
@@ -51,6 +53,14 @@ namespace FSL.Next.Pages
                         if (info[1] == "0")
                         {
                             accounts.Items.Add("离线验证："+info[0]);
+                        }
+
+                        if( info.Length == 3 )
+                        {
+                            if (info[2] == "1")
+                            {
+                                accounts.Items.Add("微软验证：" + info[1]);
+                            }
                         }
                     }
                 }
@@ -233,14 +243,14 @@ namespace FSL.Next.Pages
 
                 accountsInfo.Add(userInfo.RefreshToken + "|1");
 
-                if (!accounts.Items.Contains("微软验证：" + userInfo.Name + "（" + userInfo.Uuid + "）"))
+                if (!accounts.Items.Contains("微软验证：" + userInfo.Name))
                 {
-                    accounts.Items.Add("微软验证：" + userInfo.Name + "（" + userInfo.Uuid + "）");
+                    accounts.Items.Add("微软验证：" + userInfo.Name);
                     if (!dontSave.IsOn)
                     {
                         accAdd.IsEnabled = false;
                         accInfo.Content = "正在保存账户信息";
-                        await File.AppendAllLinesAsync("./config/accounts.fsl", [userInfo.RefreshToken + "|1"]);
+                        await File.AppendAllLinesAsync("./config/accounts.fsl", [userInfo.RefreshToken + "|" + userInfo.Name + "|1"]);
 
                         accInfo.Content = "账户添加完成";
                         accAdd.IsEnabled = true;

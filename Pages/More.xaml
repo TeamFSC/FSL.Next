@@ -45,7 +45,9 @@
                                 <Label Content="Future Starlight Launcher.Next ( FSL.Next )" Margin="10,5,0,0" FontSize="16" FontWeight="Bold"/>
                                 <Label x:Name="copyright" Content="Copyright 2024 © awa_Eric-FSC. All rights Reserved. v1.0.0 " Margin="10,5,0,0" FontSize="10"/>
                             </StackPanel>
-                            
+                            <Button x:Name="openOS" Click="OpenSource" HorizontalAlignment="Right" Margin="0,0,20,0">
+                                <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.ArrowDown8}" Content="GitHub"/>
+                            </Button>
                         </DockPanel>
 
                         <StackPanel>
@@ -121,7 +123,10 @@
                                 </Button>
                             </DockPanel>
 
-                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.OpenFile}" Content="MIT Lincense" IconSize="25" FontSize="20" FontWeight="Bold" Margin="10,20,0,10" HorizontalAlignment="Left"/>
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.ActionCenter}" Content="特别感谢" IconSize="25" FontSize="20" FontWeight="Bold" Margin="10,20,0,10" HorizontalAlignment="Left"/>
+                            <Label Content="之风（zhi-feng2008@GitHub）&#xA;StarLight.Core 启动器开发群友&#xA;参与反馈和翻译的人员"></Label>
+                            
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.OpenFile}" Content="MIT Lincense" IconSize="25" FontSize="20" FontWeight="Bold" Margin="10,25,0,10" HorizontalAlignment="Left"/>
                             <Label Content="FSL基于MIT协议开源，该协议允许修改后闭源，也无需对修改之处提供说明。&#xA;我们只要求你提供原作者和版权信息，敬请留意。"></Label>
                         </StackPanel>
 
