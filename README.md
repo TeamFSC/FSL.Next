@@ -24,7 +24,8 @@ RH的H代表**H**andyControl，而Next用的则是iNKORE.UI.WPF.Modern。
 
 ## 使用说明
 
-详见[官网](https://team)
+详见[官网](https://teamfsc.github.io/)，我们也欢迎您参与[文档编写](https://github.com/TeamFSC/teamfsc.github.io)
+
 ## 版权声明
 
 我们鼓励您基于FSL.Next的代码进行学习和二创，
@@ -35,4 +36,14 @@ RH的H代表**H**andyControl，而Next用的则是iNKORE.UI.WPF.Modern。
 
 但是，您必须保留FSL.Next的版权信息。
 
-## 
+## 隐私声明
+
+本软件需要连接到互联网，来下载核心和从网络API拉取信息，也包括检查更新。
+
+我们承诺不会以任何方式共享你的所有信息，启动器的配置文件储存在本地。
+
+## 免责声明
+
+FSL.Next会从网络下载游戏的必要文件、模组（Mods）等。
+
+由资源本身、其来源造成的版权纠纷与原作者无关。
