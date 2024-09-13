@@ -22,6 +22,7 @@ namespace FSL.Next
     {
         Pages.Mainpage mainpage = new();
         Pages.Accounts accounts = new();
+        Pages.Settings settings = new();
         Pages.More more = new();
 
         public class info
@@ -33,7 +34,12 @@ namespace FSL.Next
         {
             InitializeComponent();
 
-            if( !File.Exists("./config/accounts.fsl") || !File.Exists("./config/settings.fsl" ) )
+            nav.Content = new Frame()
+            {
+                Content = mainpage
+            };
+
+            if ( !File.Exists("./config/accounts.fsl") || !File.Exists("./config/settings.fsl" ) )
             {
                 iNKORE.UI.WPF.Modern.Controls.MessageBox.Show("启动器检测到配置文件缺失，\n如果您是第一次使用，请先配置启动选项。\n感谢您选择FSL！", "欢迎使用FSL.Next！");
                 Directory.CreateDirectory("./config");
@@ -78,6 +84,14 @@ namespace FSL.Next
             nav.Content = new Frame()
             {
                 Content = more
+            };
+        }
+
+        private void settingsNav_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            nav.Content = new Frame()
+            {
+                Content = settings
             };
         }
     }

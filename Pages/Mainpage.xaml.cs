@@ -24,6 +24,10 @@ namespace FSL.Next.Pages
         {
             InitializeComponent();
             gcCombo.Width = LAUNCH.Width;
+
+            FSL.Next.Custom customs = new FSL.Next.Custom();
+
+            custom.Content = new Frame() { Content = customs };
         }
     }
 }

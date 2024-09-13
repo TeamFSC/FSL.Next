@@ -16,7 +16,7 @@
         
         <ui:NavigationView IsPaneOpen="False" IsBackButtonVisible="Collapsed" x:Name="nav">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="主页" x:Name="mainNav" MouseDown="mainNav_MouseDown">
+                <ui:NavigationViewItem Content="主页" x:Name="mainNav" MouseDown="mainNav_MouseDown" IsSelected="True">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Home}"/>
                     </ui:NavigationViewItem.Icon>
@@ -30,11 +30,11 @@
 
                 <ui:NavigationViewItem x:Name="accNav"  Content="账户" MouseDown="accNav_MouseDown">
                     <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Accounts}"/>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.GuestUser}"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
 
-                <ui:NavigationViewItem Content="设置">
+                <ui:NavigationViewItem Content="设置" x:Name="settingsNav" MouseDown="settingsNav_MouseDown">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Settings}"/>
                     </ui:NavigationViewItem.Icon>

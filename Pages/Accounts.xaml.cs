@@ -24,6 +24,7 @@ using iNKORE.UI.WPF.Modern.Common.IconKeys;
 
 using FSL.Next.Utils;
 using Windows.ApplicationModel.UserDataTasks;
+using System.Diagnostics.Contracts;
 
 namespace FSL.Next.Pages
 {
@@ -33,6 +34,11 @@ namespace FSL.Next.Pages
     public partial class Accounts : Page
     {
         List<string> accountsInfo = [];
+
+        public class AccountsInfo
+        {
+            public static string selectedAccInfo { get; set; } = string.Empty;
+        }
 
         public Accounts()
         {

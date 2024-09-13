@@ -12,6 +12,9 @@
     <Grid>
         <Border>
             <StackPanel Margin="20" VerticalAlignment="Bottom">
+
+                <ui:ScrollViewerEx x:Name="custom" Visibility="Collapsed"/>
+
                 <StackPanel HorizontalAlignment="Right">
                     <ComboBox x:Name="gcCombo" Margin="0,0,0,10" HorizontalAlignment="Stretch"/>
                     <DockPanel>
@@ -20,12 +23,13 @@
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Airplane}" Content="启动游戏" IconSize="30" FontSize="17"/>
                              </StackPanel>
                         </Button>
-
+<!--
                         <Button x:Name="gcSettings" Padding="20,15,20,15" Margin="10,0,0,0">
                             <StackPanel>
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Settings}" Content="版本设置" IconSize="20" FontSize="14"/>
                             </StackPanel>
                         </Button>
+ -->
 
                     </DockPanel>
                 </StackPanel>
