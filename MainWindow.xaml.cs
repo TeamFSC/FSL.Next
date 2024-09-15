@@ -28,11 +28,19 @@ namespace FSL.Next
         public class info
         {
             public static string version { get; set; } = "v1.0.0";
+
+            public static dynamic thisWindow { get; set; }
+            public static void close(FSL.Next.MainWindow mainWindow)
+            {
+                mainWindow.Close();
+            }
         }
 
         public MainWindow()
         {
             InitializeComponent();
+
+            info.thisWindow = this;
 
             nav.Content = new Frame()
             {

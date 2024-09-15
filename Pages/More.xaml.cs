@@ -62,5 +62,47 @@ namespace FSL.Next.Pages
         {
             Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = "https://github.com/TeamFSC/FSL.Next" });
         }
+
+        private void mbLucky_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            int randomInt = random.Next(-1, 101);
+            string message = "FSL猜不出你的人品值...";
+
+            if ( randomInt == 100)
+            {
+                message = "在这个时候，你的人品值会是？\n100！100！100！！！\n隐藏主题...（bushi）";
+            }
+            else if ( randomInt >= 90)
+            {
+                message = $"在这个时候，你的人品值会是？\n{randomInt}...运气不错！";
+            }
+            else if (randomInt >= 70)
+            {
+                message = $"现在为止，你的人品值是：\n{randomInt}...也还可以啦！";
+            }
+            else if (randomInt >= 50)
+            {
+                message = $"现在为止，你的人品值是：\n{randomInt}...普普通通，但也没啥缺点";
+            }
+            else if (randomInt >= 30)
+            {
+                message = $"现在的人品值...\n{randomInt}...为什么会这样呢...";
+            }
+            else if (randomInt >= 10)
+            {
+                message = $"现在的人品值...\n{randomInt}...还好，没垫底";
+            }
+            else if (randomInt < 10 && randomInt > 0)
+            {
+                message = $"今天又是霉好的一天，人品值是：\n...\n{randomInt}！？不会吧...";
+            }
+            else if( randomInt == 0 )
+            {
+                message = "恭喜你，人品值是：\n0？？？ 反向欧皇（大喜）";
+            }
+
+            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,"人品测试");
+        }
     }
 }

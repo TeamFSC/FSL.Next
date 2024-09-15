@@ -15,8 +15,16 @@
 
                 <ui:ScrollViewerEx x:Name="custom" Visibility="Collapsed"/>
 
-                <StackPanel HorizontalAlignment="Right">
-                    <ComboBox x:Name="gcCombo" Margin="0,0,0,10" HorizontalAlignment="Stretch"/>
+                <StackPanel HorizontalAlignment="Right" >
+                    <DockPanel Margin="0,0,0,10">
+                        
+                        <Button x:Name="refresh" VerticalAlignment="Stretch" Margin="0,0,5,0" Click="refresh_Click">
+                            <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Refresh}"/>
+                        </Button>
+                        <ComboBox x:Name="gcCombo"  HorizontalAlignment="Stretch"/>
+                        
+                    </DockPanel>
+                    
                     <DockPanel>
                         <Button x:Name="LAUNCH" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Padding="60,10,60,10">
                             <StackPanel>
