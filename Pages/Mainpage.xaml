@@ -16,6 +16,10 @@
                 <ui:ScrollViewerEx x:Name="custom" Visibility="Collapsed"/>
 
                 <StackPanel HorizontalAlignment="Right" >
+                    <StackPanel Margin="0,0,0,10">
+                        <Label x:Name="progressText" Content="进度" FontSize="12" Margin="0,0,0,5"/>
+                        <ui:ProgressBar x:Name="progress"/>
+                    </StackPanel>
                     <DockPanel Margin="0,0,0,10">
                         
                         <Button x:Name="refresh" VerticalAlignment="Stretch" Margin="0,0,5,0" Click="refresh_Click">
@@ -26,7 +30,7 @@
                     </DockPanel>
                     
                     <DockPanel>
-                        <Button x:Name="LAUNCH" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Padding="60,10,60,10">
+                        <Button x:Name="LAUNCH" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Padding="60,10,60,10" HorizontalAlignment="Stretch" Click="LAUNCH_Click">
                             <StackPanel>
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Airplane}" Content="启动游戏" IconSize="30" FontSize="17"/>
                              </StackPanel>

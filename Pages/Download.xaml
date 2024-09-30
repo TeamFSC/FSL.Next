@@ -1,0 +1,45 @@
+﻿<Page x:Class="FSL.Next.Pages.Download"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FSL.Next.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="600"
+      Title="Download">
+
+    <Grid>
+        <ui:ScrollViewerEx Margin="20">
+            <StackPanel Margin="0,0,20,0">
+                <DockPanel Margin="0,0,0,10">
+                    <TextBox x:Name="search"/>
+                </DockPanel>
+
+                <StackPanel x:Name="download" Margin="0,0,0,10">
+                    <Label x:Name="infoSpeed" Content="新增下载任务" FontWeight="Bold"/>
+                    <Label x:Name="infoVer" Content="游戏版本" Margin="0,10,0,10"/>
+                    <DockPanel Margin="0,10,0,10">
+                        <ComboBox x:Name="downloadForge" ToolTip="Forge 加载器（开发中）" IsEnabled="False"/>
+                        <ComboBox x:Name="downloadFabric" ToolTip="Fabric 加载器" Margin="10,0,0,0"/>
+                        <Button x:Name="downloadLoaderCancel" Margin="10,0,0,0" VerticalAlignment="Stretch" Click="downloadLoaderCancel_Click">
+                            <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Cancel}"/>
+                        </Button>
+                    </DockPanel>
+                    <ui:ProgressBar x:Name="downloadProgress" Value="0" Margin="0,0,0,10"/>
+                    <DockPanel>
+                        <Button x:Name="downloadConfirm" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Click="downloadConfirm_Click">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Download}" Content="确认下载"/>
+                        </Button>
+                        <Button Margin="10,0,0,0">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Cancel}" Content="取消"/>
+                        </Button>
+                    </DockPanel>
+                    
+                </StackPanel>
+
+                <ListView x:Name="vers" MouseDoubleClick="vers_MouseDoubleClick"/>
+            </StackPanel>
+        </ui:ScrollViewerEx>
+    </Grid>
+</Page>

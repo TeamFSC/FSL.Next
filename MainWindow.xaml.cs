@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.IO;
 using iNKORE.UI.WPF.Modern;
 using Newtonsoft.Json;
+using static FSL.Next.Pages.Settings;
 
 namespace FSL.Next
 {
@@ -24,6 +25,7 @@ namespace FSL.Next
         Pages.Accounts accounts = new();
         Pages.Settings settings = new();
         Pages.More more = new();
+        Pages.Download download = new();
 
         public class info
         {
@@ -34,6 +36,18 @@ namespace FSL.Next
             {
                 mainWindow.Close();
             }
+
+            public static void setTitle(FSL.Next.MainWindow mainWindow, string title)
+            {
+                if (mainWindow == null)
+                {
+                    return;
+                }
+                mainWindow.window.Title = title;
+                info.currentTitle = mainWindow.Title;
+            }
+
+            public static string currentTitle { get; set; }
         }
 
         public MainWindow()
@@ -68,7 +82,24 @@ namespace FSL.Next
                     File.CreateText("./config/settings.fsl");
                 }
             }
-            
+
+            try
+            {
+                if (File.ReadAllText("./config/settings.fsl") == null || File.ReadAllText("./config/settings.fsl") == string.Empty)
+                {
+                    return;
+                }
+
+                string json = File.ReadAllText("./config/settings.fsl");
+                SettingsInfo settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(json);
+
+                window.Title = settingsInfo.PersonnalizeTitle;
+            }
+            catch
+            {
+
+            }
+
         }
 
         private void mainNav_MouseDown(object sender, MouseButtonEventArgs e)
@@ -100,6 +131,14 @@ namespace FSL.Next
             nav.Content = new Frame()
             {
                 Content = settings
+            };
+        }
+
+        private void downloadNav_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            nav.Content = new Frame()
+            {
+                Content = download
             };
         }
     }

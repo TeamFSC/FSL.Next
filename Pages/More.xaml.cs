@@ -31,13 +31,10 @@ namespace FSL.Next.Pages
     public partial class More : Page
     {
 
-        [DataContract]
         public class Daily
         {
-            [DataMember]
             public string Content { get; set; }
 
-            [DataMember]
             public string Source { get; set; }
         }
 
@@ -65,13 +62,15 @@ namespace FSL.Next.Pages
 
         private void mbLucky_Click(object sender, RoutedEventArgs e)
         {
-            Random random = new Random();
+            int seed = DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day;
+
+            Random random = new Random(seed);
             int randomInt = random.Next(-1, 101);
             string message = "FSL猜不出你的人品值...";
 
             if ( randomInt == 100)
             {
-                message = "在这个时候，你的人品值会是？\n100！100！100！！！\n隐藏主题...（bushi）";
+                message = "在这个时候，你的人品值会是？\n100！100！！100！！！\n隐藏主题...（bushi）";
             }
             else if ( randomInt >= 90)
             {
@@ -102,7 +101,7 @@ namespace FSL.Next.Pages
                 message = "恭喜你，人品值是：\n0？？？ 反向欧皇（大喜）";
             }
 
-            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,"人品测试");
+            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,"今日人品");
         }
     }
 }

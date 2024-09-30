@@ -82,7 +82,7 @@
                     </Label>
                 </StackPanel>
 
-                <ListBox Margin="0,10,0,0" x:Name="accounts"/>
+                <ListView Margin="0,10,0,0" x:Name="accounts" SelectionChanged="accounts_SelectionChanged"/>
             </StackPanel>
         </ui:ScrollViewerEx>
         

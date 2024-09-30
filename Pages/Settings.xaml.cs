@@ -24,6 +24,8 @@ using StarLight_Core.Models.Utilities;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Reflection;
 
+using static FSL.Next.MainWindow;
+
 namespace FSL.Next.Pages
 {
     /// <summary>
@@ -36,6 +38,13 @@ namespace FSL.Next.Pages
             public string JavaPath { get; set; }
             public List<string> GameDirs { get; set; }
             public int SelectedGD { get; set; }
+            public int DownloadSource { get; set; }
+            public int DownloadThreads { get; set; }
+            public int WindowWidth { get; set; }
+            public int WindowHeight { get; set; }
+            public bool WindowFullScreen { get; set; }
+            public int Memory { get; set; }
+            public string PersonnalizeTitle { get; set; }
         }
 
         List<string> gcDirs = []; 
@@ -55,11 +64,34 @@ namespace FSL.Next.Pages
                 string json = File.ReadAllText("./config/settings.fsl");
                 SettingsInfo settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(json);
                 javaPath.Text = settingsInfo.JavaPath;
-                
-                foreach (string dir in settingsInfo.GameDirs) gcDir.Items.Add(dir);
-                gcDir.SelectedIndex = settingsInfo.SelectedGD;
 
+                foreach (string dir in settingsInfo.GameDirs)
+                {
+                    gcDir.Items.Add(dir); 
+                    gcDirs.Add(dir);
+                }
+                gcDir.SelectedIndex = settingsInfo.SelectedGD;
                 
+                switch ( settingsInfo.DownloadSource )
+                {
+                    case 0:
+                        dsMojang.IsChecked = true;
+                        dsBA.IsChecked = false;
+                        break;
+                    case 1:
+                        dsMojang.IsChecked = false;
+                        dsBA.IsChecked = true;
+                        break;
+                }
+
+                threads.Value = settingsInfo.DownloadThreads;
+                windowWidth.Text = settingsInfo.WindowWidth.ToString();
+                windowHeight.Text = settingsInfo.WindowHeight.ToString();
+                windowFull.IsOn = settingsInfo.WindowFullScreen;
+
+                windowTitle.Text = settingsInfo.PersonnalizeTitle;
+
+                info.setTitle(info.thisWindow,settingsInfo.PersonnalizeTitle);
             }
             catch (Exception ex) 
             {
@@ -126,14 +158,30 @@ namespace FSL.Next.Pages
             }
         }
 
-        private void save_Click(object sender, RoutedEventArgs e)
+        public void saveSettings()
         {
+            int ds = 1;
+            if (dsMojang.IsChecked == true)
+            {
+                ds = 0;
+            }
+            if (dsBA.IsChecked == true)
+            {
+                ds = 1;
+            }
 
             SettingsInfo settingsInfo = new SettingsInfo
             {
                 JavaPath = javaPath.Text,
                 GameDirs = gcDirs,
-                SelectedGD = gcDir.SelectedIndex
+                SelectedGD = gcDir.SelectedIndex,
+                DownloadSource = ds,
+                DownloadThreads = (int)Math.Floor(threads.Value),
+                WindowHeight = windowHeight.Text != string.Empty ?  Convert.ToInt32(windowHeight.Text) : 480,
+                WindowWidth =  windowWidth.Text != string.Empty ? Convert.ToInt32(windowWidth.Text) : 854,
+                WindowFullScreen = windowFull.IsOn,
+                Memory = (int)Math.Floor(memory.Value),
+                PersonnalizeTitle = windowTitle.Text.ToString(),
             };
 
             string json = JsonConvert.SerializeObject(settingsInfo, Formatting.Indented, new JsonSerializerSettings
@@ -141,7 +189,29 @@ namespace FSL.Next.Pages
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
-            File.WriteAllText("./config/settings.fsl",json);
+            File.WriteAllText("./config/settings.fsl", json);
+        }
+
+        private void save_Click(object sender, RoutedEventArgs e)
+        {
+            saveSettings();
+        }
+
+        private void dirDel_Click(object sender, RoutedEventArgs e)
+        {
+            int index = gcDir.SelectedIndex;
+
+            gcDir.Items.Remove(gcDir.SelectedItem);
+            gcDirs.RemoveAt(index);
+        }
+
+        private void settingMove_Click(object sender, RoutedEventArgs e)
+        {
+            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show("FSL允许复制该启动器的本体数据到另一个FSL启动器，\n只需打开FSL本体的/config文件夹，\n将accounts.fsl（账户）和settings.fsl（设置）转移到另一个FSL的配置文件夹即可。\n如果你是开发者，也可以改这个文件的内容！\n如果改炸了，FSL也会帮你重置。", "移动启动器数据", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        private void windowTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            info.setTitle(info.thisWindow, windowTitle.Text);
         }
     }
 }

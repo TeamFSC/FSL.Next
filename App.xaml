@@ -10,7 +10,26 @@
                 <ui:ThemeResources/>
                 <ui:XamlControlsResources/>
             </ResourceDictionary.MergedDictionaries>
-            <SolidColorBrush x:Key="DangerBackgroundBrush">#FFFF2000</SolidColorBrush>
+
+            <SolidColorBrush x:Key="InfoColorBrush">#7F0061FF</SolidColorBrush>
+            <SolidColorBrush x:Key="WarningColorBrush">#B3FFA600</SolidColorBrush>
+            <SolidColorBrush x:Key="DangerColorBrush">#FFFF2000</SolidColorBrush>
+
+            <Style TargetType="Border" x:Key="SettingsExpanderOpacityBrush">
+                <Setter Property="Opacity" Value="0.1"/>
+                <Setter Property="Background" Value="LightGray"/>
+
+                <Setter Property="OpacityMask">
+                    <Setter.Value>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Border Background="White" BorderBrush="Black" BorderThickness="2" Opacity="0.5"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Setter.Value>
+                </Setter>
+                
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

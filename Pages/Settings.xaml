@@ -11,21 +11,21 @@
 
     <Grid>
         <TabControl ui:TabControlHelper.IsAddTabButtonVisible="False">
-            <TabItem Header="启动配置">
+            <TabItem Header="启动">
                 <ui:TabItemHelper.Icon>
                     <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Airplane}"/>
                 </ui:TabItemHelper.Icon>
                 <ui:ScrollViewerEx Margin="20">
-                    <StackPanel>
-                        
+                    <StackPanel Margin="0,0,20,0">
+
                         <Label Content="游戏目录"/>
                         <ui:IconAndText ToolTip="游戏目录一般带有“.minecraft”字样，是存储例如Minecraft版本、模组、光影包等资源的目录，&#xA;你可以在这里管理这些目录。" Icon="{x:Static ui:SegoeFluentIcons.InfoSolid}" Content="说明" IconSize="12" FontSize="10" Margin="5" HorizontalAlignment="Left"/>
-                        <ListBox x:Name="gcDir" Margin="0,10,0,10"/>
+                        <ListView x:Name="gcDir" Margin="0,10,0,10"/>
                         <DockPanel Margin="0,0,0,10">
                             <Button x:Name="dirAdd" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Click="dirAdd_Click">
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Add}" Content="添加目录"/>
                             </Button>
-                            <Button x:Name="dirDel" Margin="10,0,0,0">
+                            <Button x:Name="dirDel" Margin="10,0,0,0" Click="dirDel_Click">
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Delete}" Content="删除"/>
                             </Button>
                         </DockPanel>
@@ -33,30 +33,116 @@
                         <Label Content="Java 配置"/>
                         <ui:IconAndText ToolTip="JVM虚拟机是用于启动Minecraft的介质，你可以去Oracle官网下载最新版本的JVM。&#xA;FSL支持自动搜索，你也可以手动设置。&#xA;请始终选择支持Minecraft版本的JVM，否则有可能导致游戏崩溃。" Icon="{x:Static ui:SegoeFluentIcons.InfoSolid}" Content="说明" IconSize="12" FontSize="10" Margin="5" HorizontalAlignment="Left"/>
                         <DockPanel>
-                            
-                            <Button x:Name="javaRefresh" Height="32" Click="javaRefresh_Click">
+
+                            <Button x:Name="javaRefresh" Height="32" Click="javaRefresh_Click" Margin="0,0,10,0">
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Search}" Content="自动搜索"/>
                             </Button>
                             <ComboBox x:Name="javaCombo" Margin="0,10,0,10" HorizontalAlignment="Stretch" SelectionChanged="javaCombo_SelectionChanged"/>
-                            
+
                         </DockPanel>
 
                         <TextBox x:Name="javaPath" Text="请选择Java，或在此处输入路径"/>
+
+                        <DockPanel Margin="0,10,0,0">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Game}" Content="内存限制（MB）" FontWeight="Bold" ToolTip="限制游戏内存在指定范围内，不建议太低"/>
+                            <Slider x:Name="memory" Minimum="128" Maximum="4096" Value="3072" />
+                        </DockPanel>
+
+                        <Label Content="窗口大小 - 宽度x高度" Margin="0,10,0,0"/>
+                        <DockPanel Margin="0,10,0,0">
+                            <TextBox x:Name="windowWidth"/>
+                            <Label Content=" × " VerticalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                            <TextBox x:Name="windowHeight" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,10,0,0">
+                            <Label Content="默认全屏" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ui:ToggleSwitch x:Name="windowFull"/>
+                        </DockPanel>
+
                         <Button x:Name="save" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Margin="0,20,0,0" Click="save_Click">
                             <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Save}" Content="保存设置"/>
                         </Button>
                     </StackPanel>
-                    
+
                 </ui:ScrollViewerEx>
             </TabItem>
 
-            <TabItem Header="高级设置">
+            <TabItem Header="下载">
+                <ui:TabItemHelper.Icon>
+                    <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Download}"/>
+                </ui:TabItemHelper.Icon>
+                <ui:ScrollViewerEx Margin="20">
+                    <StackPanel>
+                        <Label Margin="0,0,0,10">
+                            <ui:IconAndText FontWeight="Bold" Content="下载源" Icon="{x:Static ui:SegoeFluentIcons.CloudDownload}"/>
+                        </Label>
+                        <Label Margin="0,0,0,10" Content="下载源是您下载游戏核心时使用的通道。&#xA;官方源是Mojang提供的官方下载源，虽然版本较新，但由于位于海外，不稳定。&#xA;BMCLAPI是由bangbang93开发的国内镜像源（bmclapidoc.bangbang93.com），访问快速，但更新可能不及时。&#xA;因为某些众所周知的原因，大量流量涌入该源，可能会时不时的爆炸。" FontSize="10"/>
+                        <RadioButton x:Name="dsMojang" Content="Mojang - 官方"/>
+                        <RadioButton x:Name="dsBA" Content="BMCLAPI - 镜像" IsChecked="True"/>
+
+                        <DockPanel Margin="0,10,0,0">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.List}" Content="下载线程数（并发数）" FontWeight="Bold" ToolTip="线程数（并发数）是下载时最多并行的任务数量，一般情况下，64已经能够满足速度需求。&#xA;如果线程数太高可能导致设备卡顿，太低又导致速度非常慢。"/>
+                            <Slider x:Name="threads" Minimum="1" Maximum="256" Value="64" />
+                        </DockPanel>
+                        <Button Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Margin="0,20,0,0" Click="save_Click">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Save}" Content="保存设置"/>
+                        </Button>
+                    </StackPanel>
+
+
+                </ui:ScrollViewerEx>
+            </TabItem>
+
+            <TabItem Header="个性化">
+                <ui:TabItemHelper.Icon>
+                    <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Personalize}"/>
+                </ui:TabItemHelper.Icon>
+                <ui:ScrollViewerEx Margin="20">
+                    <StackPanel>
+                        <Border Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" CornerRadius="4" Margin="0,0,0,10" Padding="10">
+                            <StackPanel>
+                                <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Info}" Foreground="White" Content="提示" FontWeight="Bold"/>
+                                <Rectangle Fill="White" Height="1" Margin="0,10,0,5"/>
+                                <Label Content="个性化设置目前仍在测试阶段，可能存在各种不可严明的 BUG；调试区域一般是开发者使用，请勿随意更改。" Foreground="White" FontSize="11"/>
+                            </StackPanel>
+                        </Border>
+                        <DockPanel HorizontalAlignment="Stretch" Margin="0,0,0,10">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Subtitles}" Content="窗口标题" FontWeight="Bold"/>
+                            <TextBox x:Name="windowTitle" Text="FSL Launcher.Next - Minecraft 启动器" Margin="10,0,0,0" TextChanged="windowTitle_TextChanged"/>
+                        </DockPanel>
+                        <Border Background="#33D3D3D3" CornerRadius="4">
+                            <DockPanel Margin="10">
+                                
+                                <Expander Header="调试">
+                                    <StackPanel Margin="0,5,0,0" HorizontalAlignment="Left">
+                                        <DockPanel>
+                                            <ui:IconAndText Foreground="White" Icon="{x:Static ui:SegoeFluentIcons.Info}" Content="InfoColorBrush" Background="{DynamicResource InfoColorBrush}"/>
+                                            <ui:IconAndText Foreground="White" Icon="{x:Static ui:SegoeFluentIcons.Warning}" Content="WarningColorBrush" Margin="5,0,0,0" Background="{DynamicResource WarningColorBrush}"/>
+                                            <ui:IconAndText Foreground="White" Icon="{x:Static ui:SegoeFluentIcons.Error}" Content="DangerColorBrush" Margin="5,0,0,0" Background="{DynamicResource DangerColorBrush}"/>
+                                        </DockPanel>
+                                        
+                                    </StackPanel>
+                                </Expander>
+                            </DockPanel>
+                        </Border>
+
+                        <Button Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Margin="0,20,0,0" Click="save_Click">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Save}" Content="保存设置"/>
+                        </Button>
+                    </StackPanel>
+                </ui:ScrollViewerEx>
+            </TabItem>
+            
+            <TabItem Header="高级">
                 <ui:TabItemHelper.Icon>
                     <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.OEM}"/>
                 </ui:TabItemHelper.Icon>
                 <ui:ScrollViewerEx Margin="20">
                     <StackPanel>
-                        <Button x:Name="resetFSL" Background="{DynamicResource DangerBackgroundBrush}" Foreground="White" Click="resetFSL_Click">
+                        <Button x:Name="settingMove" Click="settingMove_Click" Margin="0,0,0,10">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.MoveToFolder}" Content="移动启动器数据"/>
+                        </Button>
+                        <Button x:Name="resetFSL" Click="resetFSL_Click">
                             <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Warning}" Content="重置 FSL.Next 数据"/>
                         </Button>
                     </StackPanel>

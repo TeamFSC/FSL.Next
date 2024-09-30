@@ -37,7 +37,7 @@ namespace FSL.Next.Pages
 
         public class AccountsInfo
         {
-            public static string selectedAccInfo { get; set; } = string.Empty;
+            public static string SelectedAccInfo { get; set; } = string.Empty;
         }
 
         public Accounts()
@@ -56,17 +56,14 @@ namespace FSL.Next.Pages
                     {
                         accountsInfo.Add(line);
                         string[] info = line.Split("|");
-                        if (info[1] == "0")
+                        if (info[0] == "0")
                         {
-                            accounts.Items.Add("离线验证："+info[0]);
+                            accounts.Items.Add("离线验证："+info[1]);
                         }
 
-                        if( info.Length == 3 )
+                        if (info[0] == "1")
                         {
-                            if (info[2] == "1")
-                            {
-                                accounts.Items.Add("微软验证：" + info[1]);
-                            }
+                            accounts.Items.Add("微软验证：" + info[2]);
                         }
                     }
                 }
@@ -162,7 +159,7 @@ namespace FSL.Next.Pages
                         {
                             accAdd.IsEnabled = false;
                             accInfo.Content = "正在保存账户信息";
-                            await File.AppendAllLinesAsync("./config/accounts.fsl", [offlineName.Text + "|0"]);
+                            await File.AppendAllLinesAsync("./config/accounts.fsl", ["0|" + offlineName.Text]);
                             
                             accInfo.Content = "账户添加完成";
                             accAdd.IsEnabled = true;
@@ -256,7 +253,7 @@ namespace FSL.Next.Pages
                     {
                         accAdd.IsEnabled = false;
                         accInfo.Content = "正在保存账户信息";
-                        await File.AppendAllLinesAsync("./config/accounts.fsl", [userInfo.RefreshToken + "|" + userInfo.Name + "|1"]);
+                        await File.AppendAllLinesAsync("./config/accounts.fsl", ["1|" + userInfo.RefreshToken + "|" + userInfo.Name]);
 
                         accInfo.Content = "账户添加完成";
                         accAdd.IsEnabled = true;
@@ -273,6 +270,12 @@ namespace FSL.Next.Pages
             {
                 iNKORE.UI.WPF.Modern.Controls.MessageBox.Show( "Microsoft 登录失败，如果你还没有购买 Minecraft Java 版，请去 Minecraft 官网或 Microsoft Xbox 购买！\n或者，是因为作者没有测试，导致验证器炸了...\n" + ex.Message,"Microsoft 账户验证",MessageBoxButton.OK,MessageBoxImage.Error) ;
             }
+        }
+
+        private void accounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string[] content = File.ReadAllLines("./config/accounts.fsl");
+            AccountsInfo.SelectedAccInfo = content[accounts.SelectedIndex];
         }
     }
 }
