@@ -86,45 +86,23 @@ namespace FSL.Next.Pages
 
         private void switchAuthType(int type)
         {
-            try
-            {
+              tips.Visibility = Visibility.Visible;
+              accConfig.Visibility = Visibility.Visible;
 
-                tips.Visibility = Visibility.Visible;
-                accConfig.Visibility = Visibility.Visible;
+              switch (type)
+              {
+                  case 0:
+                      offlineName.Visibility = Visibility.Visible;
+                      offlineName.Text = "Player_Name";
+                      msStart.Visibility = Visibility.Collapsed;
+                      break;
 
-                switch (type)
-                {
-                    case 0:
-                        offlineName.Visibility = Visibility.Visible;
-                        offlineName.Text = "Player_Name";
-                        msStart.Visibility = Visibility.Collapsed;
-                        break;
-
-                    case 1:
-                        offlineName.Visibility = Visibility.Collapsed;
-                        msStart.Visibility = Visibility.Visible;
-                        break;
-            }
-                        
-            }
-            catch (Exception ex)
-            {
-                MessageBoxUtil.ShowError("Accounts/switchAuthType",ex);
-
-                /*
-                if( !Directory.Exists("./logs") )
-                {
-                    Directory.CreateDirectory("./logs");
-                }
-
-                var logName = "./logs/FSLError-Lastet.txt";
-
-                File.CreateText(logName);
-                File.WriteAllLines(logName, ["- - - - - - - - - - - - -","FSL.Next Error Log", "- - - - - - - - - - - - -", "LOCATE: Accounts-switchAuthType", "EXCEPTION: "+ex,"",""+"FSL-Version: ",FSL.Next.MainWindow.info.version]);
-                */
-            }
-            
-        }
+                  case 1:
+                      offlineName.Visibility = Visibility.Collapsed;
+                      msStart.Visibility = Visibility.Visible;
+                      break;
+              }
+         }                
 
         // 界面设计的最好看的一集！（大喜）
 

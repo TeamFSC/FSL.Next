@@ -32,6 +32,9 @@
                             <Button x:Name="mbLucky" Click="mbLucky_Click">
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.BlueLight}" Content="今日人品"/>
                             </Button>
+                            <Button x:Name="mbCrash" Margin="10,0,10,0" Click="mbCrash_Click">
+                                <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.ErrorBadge}" Content="测试崩溃" ToolTip="此时，FSL会计算一道数学题，&#xA;然后就会因为计算不出5÷0等于多少而原地爆炸。"/>
+                            </Button>
                         </DockPanel>
                         
                     </StackPanel>

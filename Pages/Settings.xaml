@@ -110,7 +110,7 @@
                             <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Subtitles}" Content="窗口标题" FontWeight="Bold"/>
                             <TextBox x:Name="windowTitle" Text="FSL Launcher.Next - Minecraft 启动器" Margin="10,0,0,0" TextChanged="windowTitle_TextChanged"/>
                         </DockPanel>
-                        <Border Background="#33D3D3D3" CornerRadius="4">
+                        <Border CornerRadius="4" Background="{DynamicResource SecondaryColorBrush}">
                             <DockPanel Margin="10">
                                 
                                 <Expander Header="调试">

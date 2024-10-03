@@ -13,6 +13,7 @@ using System.IO;
 using iNKORE.UI.WPF.Modern;
 using Newtonsoft.Json;
 using static FSL.Next.Pages.Settings;
+using static FSL.Next.Windows.Exceptions;
 
 namespace FSL.Next
 {
@@ -53,6 +54,8 @@ namespace FSL.Next
         public MainWindow()
         {
             InitializeComponent();
+
+            ExceptionWindow.thisWindow = new FSL.Next.Windows.Exceptions();
 
             info.thisWindow = this;
 

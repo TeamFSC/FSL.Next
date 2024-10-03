@@ -13,25 +13,59 @@
         <ui:ScrollViewerEx Margin="20">
             <StackPanel Margin="0,0,20,0">
                 <DockPanel Margin="0,0,0,10">
-                    <TextBox x:Name="search"/>
+                   <!-- <TextBox x:Name="search" TextChanged="search_TextChanged" Visibility="Collapsed"/> -->
                 </DockPanel>
 
                 <StackPanel x:Name="download" Margin="0,0,0,10">
                     <Label x:Name="infoSpeed" Content="新增下载任务" FontWeight="Bold"/>
-                    <Label x:Name="infoVer" Content="游戏版本" Margin="0,10,0,10"/>
-                    <DockPanel Margin="0,10,0,10">
-                        <ComboBox x:Name="downloadForge" ToolTip="Forge 加载器（开发中）" IsEnabled="False"/>
-                        <ComboBox x:Name="downloadFabric" ToolTip="Fabric 加载器" Margin="10,0,0,0"/>
-                        <Button x:Name="downloadLoaderCancel" Margin="10,0,0,0" VerticalAlignment="Stretch" Click="downloadLoaderCancel_Click">
-                            <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Cancel}"/>
+                    <Border Background="{DynamicResource SecondaryColorBrush}" CornerRadius="4" Margin="0,10,0,0" Padding="5">
+                        <DockPanel>
+                            <Image x:Name="image" Source="http://xxag.top/Images/Grass_Block.png" Height="25"/>
+                            <Label x:Name="infoVer" Content="游戏版本" Margin="10,10,0,10"/>
+                        </DockPanel>
+                    </Border>
+                        
+                    <Grid Margin="0,10,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.1*" />
+                        </Grid.ColumnDefinitions>
+                        <Border CornerRadius="4" Background="{DynamicResource SecondaryColorBrush}" Padding="5" Grid.Column="0">
+                            <Expander IsEnabled="False" VerticalAlignment="Stretch">
+                                <Expander.Header>
+                                    <DockPanel>
+                                        <Image Source="http://xxag.top/Images/Anvil.png" Height="22" Margin="0,0,5,0" Opacity="0.7"/>
+                                        <Label x:Name="infoForge" Content="Forge - 开发中"/>
+                                    </DockPanel>
+                                </Expander.Header>
+                                <ListView x:Name="downloadForge"/>
+                            </Expander>
+                        </Border>
+
+                        <Border CornerRadius="4" Background="{DynamicResource SecondaryColorBrush}" Padding="5" Margin="10,0,0,0" Grid.Column="1">
+                            <Expander x:Name="expanderFabric" VerticalAlignment="Stretch" Expanded="expanderLoader_Expanded" Collapsed="expanderLoader_Collapsed">
+                                <Expander.Header>
+                                    <DockPanel>
+                                        <Image Source="http://xxag.top/Images/Fabric.png" Height="22" Margin="0,0,5,0"/>
+                                        <Label x:Name="infoFabric" Content="Fabric"/>
+                                    </DockPanel>
+                                </Expander.Header>
+                                <ListView x:Name="downloadFabric" SelectionChanged="downloadFabric_SelectionChanged"/>
+                            </Expander>
+                        </Border>
+
+                        <Button x:Name="downloadLoaderCancel" VerticalAlignment="Stretch" Click="downloadLoaderCancel_Click" Grid.Column="2" Margin="10,0,0,0" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent">
+                            <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Cancel}"/>
                         </Button>
-                    </DockPanel>
+                    </Grid>
+                    
                     <ui:ProgressBar x:Name="downloadProgress" Value="0" Margin="0,0,0,10"/>
                     <DockPanel>
                         <Button x:Name="downloadConfirm" Style="{StaticResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Click="downloadConfirm_Click">
                             <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Download}" Content="确认下载"/>
                         </Button>
-                        <Button Margin="10,0,0,0">
+                        <Button x:Name="downloadCancel" Margin="10,0,0,0" Click="downloadCancel_Click">
                             <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Cancel}" Content="取消"/>
                         </Button>
                     </DockPanel>

@@ -52,17 +52,32 @@ namespace FSL.Next.Pages
             {
                 return;
             }
+            downloadConfirm.IsEnabled = true;
+            downloadCancel.IsEnabled = true;
+            vers.Visibility = Visibility.Collapsed;
             download.Visibility = Visibility.Visible;
-            infoVer.Content = $"游戏版本：{vers.SelectedValue} ，模组加载器请在下方选择";
+            infoVer.Content = $"游戏版本：{vers.SelectedValue}";
             infoSpeed.Content = "新建下载任务";
             downloadFabric.ItemsSource = await FabricInstaller.FetchFabricVersionsAsync(vers.SelectedValue.ToString());
             downloadFabric.DisplayMemberPath = "Version";
             downloadFabric.SelectedValuePath = "Version";
+
+            downloadForge.SelectedIndex = -1;
+            downloadFabric.SelectedIndex = -1;
+            infoForge.Content = "Forge - 开发中";
+            infoFabric.Content = "Fabric";
+
+            image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Grass_Block.png"));
         }
 
         private async void downloadConfirm_Click(object sender, RoutedEventArgs e)
         {
             isDownloading = true;
+            downloadFabric.IsEnabled = false;
+            downloadForge.IsEnabled = false;
+            downloadConfirm.IsEnabled = false;
+            downloadCancel.IsEnabled = false;
+
             SettingsInfo settingsInfo = new SettingsInfo();
             string json = File.ReadAllText("./config/settings.fsl");
             settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(json);
@@ -87,10 +102,16 @@ namespace FSL.Next.Pages
             MinecraftInstaller installer = new MinecraftInstaller(vers.SelectedValue.ToString(),gcRoot);
 
             infoSpeed.Content = "正在下载原版核心";
+            image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Iron_Pickaxe.png"));
             installer.OnProgressChanged += (status,progress) => 
             {
                 infoVer.Content = $"{status}（{progress}%）";
                 downloadProgress.Value = progress;
+
+                if ( status.Contains("失败") )
+                {
+                    image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Active_Redstone_Wire.png"));
+                }
             };
             
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -102,22 +123,58 @@ namespace FSL.Next.Pages
                 var fabricInstaller = new FabricInstaller(vers.SelectedValue.ToString(),downloadFabric.SelectedValue.ToString(),root:gcRoot);
 
                 infoSpeed.Content = "正在下载 Fabric 加载器";
+                image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Fabric.png"));
                 fabricInstaller.OnProgressChanged += (status, progress) =>
                 {
                     infoVer.Content = $"{status}（{progress}%）";
                     downloadProgress.Value = progress;
+
+                    if (status.Contains("失败"))
+                    {
+                        image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Active_Redstone_Wire.png"));
+                    }
                 };
 
                 await fabricInstaller.InstallAsync();
             }
 
             isDownloading = false;
+            image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Dirt_Path.png"));
+            downloadFabric.IsEnabled = true;
+            downloadForge.IsEnabled = true;
+            downloadConfirm.IsEnabled = true;
+            downloadCancel.IsEnabled = true;
         }
 
         private void downloadLoaderCancel_Click(object sender, RoutedEventArgs e)
         {
             downloadForge.SelectedIndex = -1;
             downloadFabric.SelectedIndex = -1;
+            infoForge.Content = "Forge - 开发中";
+            infoFabric.Content = "Fabric";
+        }
+
+        private void downloadFabric_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            infoFabric.Content = $"Fabric {downloadFabric.SelectedValue}";
+            downloadForge.IsEnabled = false;
+            infoForge.Content = "Forge - 与 Fabric 不兼容";
+        }
+
+        private void expanderLoader_Expanded(object sender, RoutedEventArgs e)
+        {
+            downloadLoaderCancel.Visibility = Visibility.Collapsed;
+        }
+
+        private void expanderLoader_Collapsed(object sender, RoutedEventArgs e)
+        {
+            downloadLoaderCancel.Visibility = Visibility.Visible;
+        }
+
+        private void downloadCancel_Click(object sender, RoutedEventArgs e)
+        {
+            vers.Visibility = Visibility.Visible;
+            download.Visibility = Visibility.Collapsed;
         }
     }
 }

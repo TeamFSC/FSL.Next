@@ -14,6 +14,7 @@
             <SolidColorBrush x:Key="InfoColorBrush">#7F0061FF</SolidColorBrush>
             <SolidColorBrush x:Key="WarningColorBrush">#B3FFA600</SolidColorBrush>
             <SolidColorBrush x:Key="DangerColorBrush">#FFFF2000</SolidColorBrush>
+            <SolidColorBrush x:Key="SecondaryColorBrush">#33D3D3D3</SolidColorBrush>
 
             <Style TargetType="Border" x:Key="SettingsExpanderOpacityBrush">
                 <Setter Property="Opacity" Value="0.1"/>

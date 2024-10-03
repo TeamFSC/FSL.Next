@@ -116,7 +116,7 @@ namespace FSL.Next.Pages
                 {
                     Root = settingsInfo.GameDirs[settingsInfo.SelectedGD],
                     Version = gcCombo.SelectedValue.ToString(),
-                    IsVersionIsolation = false,
+                    IsVersionIsolation = true,
                 },
                 GameWindowConfig = new()
                 {

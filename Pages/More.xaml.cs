@@ -103,5 +103,11 @@ namespace FSL.Next.Pages
 
             iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,"今日人品");
         }
+
+        private void mbCrash_Click(object sender, RoutedEventArgs e)
+        {
+            var a = 1;
+            var b = 5 / (1 - a);
+        }
     }
 }
