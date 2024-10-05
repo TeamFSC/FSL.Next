@@ -34,7 +34,7 @@
                             <Border Background="OrangeRed" CornerRadius="3" Margin="5,0,5,10" x:Name="accCannot" Visibility="Collapsed">
                                 <StackPanel>
                                     <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Warning}" Content="暂时无法创建此账户" Foreground="White" Margin="10" FontWeight="Bold"/>
-                                    <Label Content="请检查该账户是否存在、用户名内是否包含“|”特殊字符" FontSize="12" HorizontalAlignment="Center" Foreground="White" Margin="5" Width="291"/>
+                                    <Label Content="请检查该账户是否存在，FSL强制不允许重复账户" FontSize="12" HorizontalAlignment="Center" Foreground="White" Margin="5" Width="291"/>
                                 </StackPanel>
                             </Border>
 
@@ -55,6 +55,12 @@
                                 <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Badge}" Content="微软验证" FontWeight="Bold"/>
                                 <TextBlock Text=" 通过购买过Minecraft的Microsoft账户登录，合法合规，可以体验全部功能！"/>
                             </DockPanel>
+
+                            <DockPanel Margin="0,10,0,0">
+                                <ui:IconAndText Icon="{x:Static ui:SegoeFluentIcons.Lock}" Content="第三方验证" FontWeight="Bold"/>
+                                <TextBlock Text=" 即 Yggdrasil（Authlib-Injector）验证，皮肤站主页中一般有API地址"/>
+                            </DockPanel>
+                            
                             <ui:IconAndText x:Name="accInfo" Margin="0,15,0,15" Icon="{x:Static ui:SegoeFluentIcons.Info}" Content="如有能力，FSL建议您选择正版，毕竟89又不贵..." HorizontalAlignment="Left"/>
 
                             <StackPanel>

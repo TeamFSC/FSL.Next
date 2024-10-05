@@ -25,6 +25,7 @@ using iNKORE.UI.WPF.Modern.Common.IconKeys;
 using FSL.Next.Utils;
 using Windows.ApplicationModel.UserDataTasks;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 
 namespace FSL.Next.Pages
 {
@@ -33,11 +34,24 @@ namespace FSL.Next.Pages
     /// </summary>
     public partial class Accounts : Page
     {
-        List<string> accountsInfo = [];
 
         public class AccountsInfo
         {
-            public static string SelectedAccInfo { get; set; } = string.Empty;
+            public static AccountsDetail SelectedAccInfo { get; set; }
+        }
+
+        public class AccountsList
+        {
+            public List<AccountsDetail> Accounts { get; set; }
+        }
+
+        public class AccountsDetail
+        {
+            public string Type { get; set; }
+            public string Offline_Name { get; set; }
+            public string Microsoft_Name { get; set; }
+            public string Microsoft_RefreshToken { get; set; }
+            public List Yggdrasil_Players { get; set; }
         }
 
         public Accounts()
@@ -46,37 +60,40 @@ namespace FSL.Next.Pages
             tips.Visibility = Visibility.Collapsed;
 
             // 加载账户配置
-
             try
             {
-                string[] content = File.ReadAllLines("./config/accounts.fsl");
-                foreach(string line in content)
-                {
-                    if( line != string.Empty)
-                    {
-                        accountsInfo.Add(line);
-                        string[] info = line.Split("|");
-                        if (info[0] == "0")
-                        {
-                            accounts.Items.Add("离线验证："+info[1]);
-                        }
+                string content = File.ReadAllText("./config/accounts.fsl");
+                AccountsList allAccounts = JsonConvert.DeserializeObject<AccountsList>(content);
 
-                        if (info[0] == "1")
-                        {
-                            accounts.Items.Add("微软验证：" + info[2]);
-                        }
+                foreach (AccountsDetail accountsDetail in allAccounts.Accounts)
+                {
+                    switch (accountsDetail.Type)
+                    {
+                        case "Offline":
+                            accounts.Items.Add("离线验证：" + accountsDetail.Offline_Name);
+                            break;
+                        case "Microsoft":
+                            accounts.Items.Add("微软验证：" + accountsDetail.Microsoft_Name);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                if ( !Directory.Exists("./config") )
+                AccountsList allAccounts = new AccountsList()
+                { 
+                    Accounts = new List<AccountsDetail>()
+                };
+                string json = JsonConvert.SerializeObject(allAccounts, Formatting.Indented, new JsonSerializerSettings
                 {
-                    Directory.CreateDirectory("./config");
-                }
-                File.Create("./config/accounts.fsl");
-                iNKORE.UI.WPF.Modern.Controls.MessageBox.Show("诶呀... FSL 无法解析你的账户配置文件，\n这可能是因为修改的配置文件格式不正确导致的。\n如果这是第一次使用，请重启更新。\n该文件已被重置，如有问题，请查看错误信息：\n\n" + ex,"解析账户配置失败",MessageBoxButton.OK,MessageBoxImage.Hand);
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+
+                File.WriteAllText("./config/accounts.fsl", json);
             }
+                
         }
 
         public class accInfos
@@ -129,15 +146,34 @@ namespace FSL.Next.Pages
             switch ( authType.SelectedIndex )
             {
                 case 0:
-                    if ( ! (offlineName.Text.Contains("|") || accounts.Items.Contains("离线验证：" + offlineName.Text)))
+                    if ( ! accounts.Items.Contains("离线验证：" + offlineName.Text))
                     {
                         accounts.Items.Add("离线验证：" + offlineName.Text);
-                        accountsInfo.Add(offlineName.Text + "|0");
+
                         if (!dontSave.IsOn)
                         {
                             accAdd.IsEnabled = false;
                             accInfo.Content = "正在保存账户信息";
-                            await File.AppendAllLinesAsync("./config/accounts.fsl", ["0|" + offlineName.Text]);
+
+                            string text = await File.ReadAllTextAsync("./config/accounts.fsl");
+                            AccountsList allAccounts = JsonConvert.DeserializeObject<AccountsList>(text);
+                            List<AccountsDetail> list = allAccounts.Accounts;
+                            list.Add(new AccountsDetail()
+                            {
+                                Type = "Offline",
+                                Offline_Name = offlineName.Text,
+                            }); 
+
+                            AccountsList accountsList = new()
+                            {
+                                Accounts = list
+                            };
+                            string json = JsonConvert.SerializeObject(accountsList, Formatting.Indented, new JsonSerializerSettings
+                            {
+                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            });
+
+                            await File.WriteAllTextAsync("./config/accounts.fsl",json);
                             
                             accInfo.Content = "账户添加完成";
                             accAdd.IsEnabled = true;
@@ -159,16 +195,9 @@ namespace FSL.Next.Pages
             tips.Visibility = Visibility.Collapsed;
         }
 
-        private void delAcc_Click(object sender, RoutedEventArgs e)
+        private async void delAcc_Click(object sender, RoutedEventArgs e)
         {
-            string[] accounts_ = File.ReadAllLines("./config/accounts.fsl");
-            accountsInfo.Clear();
-
-            // 转换数组到列表
-            foreach (string line in accounts_)
-            {
-                accountsInfo.Add(line);
-            }
+            string accounts_ = await File.ReadAllTextAsync("./config/accounts.fsl");
 
             // 防止用户删除后没选择不小心再点一次（没错这个用户是我）
             if( accounts.SelectedIndex == -1)
@@ -176,11 +205,15 @@ namespace FSL.Next.Pages
                 return;
             }
 
-            accountsInfo.Remove(accountsInfo[accounts.SelectedIndex]);
+            AccountsList allAccounts = JsonConvert.DeserializeObject<AccountsList>(accounts_);
+            allAccounts.Accounts.RemoveAt(accounts.SelectedIndex);
 
-            accounts.Items.Remove(accounts.SelectedItem);
+            string json = JsonConvert.SerializeObject(allAccounts, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
 
-            File.WriteAllLines("./config/accounts.fsl", accountsInfo);
+            await File.WriteAllTextAsync("./config/accounts.fsl", json);
         }
 
         private async void msStart_Click(object sender, RoutedEventArgs e)
@@ -222,8 +255,6 @@ namespace FSL.Next.Pages
 
                 iNKORE.UI.WPF.Modern.Controls.MessageBox.Show( "你现在已经成功登录到你的Microsoft账户，可以继续。\n" + "你的账户名为：" + userInfo.Name + "\n感谢购买Minecraft，祝您游戏愉快！", "Microsoft 账户验证",MessageBoxButton.OK,MessageBoxImage.Information);
 
-                accountsInfo.Add(userInfo.RefreshToken + "|1");
-
                 if (!accounts.Items.Contains("微软验证：" + userInfo.Name))
                 {
                     accounts.Items.Add("微软验证：" + userInfo.Name);
@@ -231,8 +262,27 @@ namespace FSL.Next.Pages
                     {
                         accAdd.IsEnabled = false;
                         accInfo.Content = "正在保存账户信息";
-                        await File.AppendAllLinesAsync("./config/accounts.fsl", ["1|" + userInfo.RefreshToken + "|" + userInfo.Name]);
 
+                        string text = await File.ReadAllTextAsync("./config/accounts.fsl");
+                        AccountsList allAccounts = JsonConvert.DeserializeObject<AccountsList>(text);
+                        List<AccountsDetail> list = allAccounts.Accounts;
+                        list.Add(new AccountsDetail()
+                        {
+                            Type = "Microsoft",
+                            Microsoft_Name = userInfo.Name,
+                            Microsoft_RefreshToken = userInfo.RefreshToken
+                        });
+
+                        AccountsList accountsList = new()
+                        {
+                            Accounts = list
+                        };
+                        string json = JsonConvert.SerializeObject(accountsList, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+
+                        await File.WriteAllTextAsync("./config/accounts.fsl", json);
                         accInfo.Content = "账户添加完成";
                         accAdd.IsEnabled = true;
                     }
@@ -252,8 +302,10 @@ namespace FSL.Next.Pages
 
         private void accounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string[] content = File.ReadAllLines("./config/accounts.fsl");
-            AccountsInfo.SelectedAccInfo = content[accounts.SelectedIndex];
+            string content = File.ReadAllText("./config/accounts.fsl");
+            AccountsList allAccounts = JsonConvert.DeserializeObject<AccountsList>(content);
+
+            AccountsInfo.SelectedAccInfo = allAccounts.Accounts[accounts.SelectedIndex];
         }
     }
 }

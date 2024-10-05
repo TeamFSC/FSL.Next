@@ -58,14 +58,23 @@ namespace FSL.Next.Pages
             download.Visibility = Visibility.Visible;
             infoVer.Content = $"游戏版本：{vers.SelectedValue}";
             infoSpeed.Content = "新建下载任务";
+
             downloadFabric.ItemsSource = await FabricInstaller.FetchFabricVersionsAsync(vers.SelectedValue.ToString());
+            infoFabric.Content = "Fabric";
+            if (downloadFabric.Items.Count == 0)
+            {
+                infoFabric.Content = "Fabric - 无可用版本";
+            }
             downloadFabric.DisplayMemberPath = "Version";
             downloadFabric.SelectedValuePath = "Version";
 
+            downloadForge.ItemsSource = await ForgeInstaller.FetchForgeVersionsAsync(vers.SelectedValue.ToString());
+            infoForge.Content = "Forge - 开发中";
+            downloadForge.DisplayMemberPath = "Version";
+            downloadForge.SelectedValuePath = "Version";
+
             downloadForge.SelectedIndex = -1;
             downloadFabric.SelectedIndex = -1;
-            infoForge.Content = "Forge - 开发中";
-            infoFabric.Content = "Fabric";
 
             image.Source = new BitmapImage(new Uri("http://xxag.top/Images/Grass_Block.png"));
         }
@@ -150,8 +159,14 @@ namespace FSL.Next.Pages
         {
             downloadForge.SelectedIndex = -1;
             downloadFabric.SelectedIndex = -1;
+
             infoForge.Content = "Forge - 开发中";
+
             infoFabric.Content = "Fabric";
+            if (downloadFabric.Items.Count == 0)
+            {
+                infoFabric.Content = "Fabric - 无可用版本";
+            }
         }
 
         private void downloadFabric_SelectionChanged(object sender, SelectionChangedEventArgs e)

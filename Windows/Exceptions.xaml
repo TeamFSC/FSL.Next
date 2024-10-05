@@ -9,7 +9,7 @@
         ui:TitleBar.Height="42"
         xmlns:local="clr-namespace:FSL.Next.Windows"
         mc:Ignorable="d"
-        Title="× FSL.Next 错误 - 发生了未经处理的异常" Height="450" Width="800">
+        Title="FSL.Next 错误 - 发生了未经处理的异常" Height="450" Width="800" Icon="/Windows/Error.png">
     <Grid>
         <ui:ScrollViewerEx Margin="20,10,20,10">
             <StackPanel Margin="0,0,0,10">

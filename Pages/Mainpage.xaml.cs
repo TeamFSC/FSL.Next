@@ -89,17 +89,16 @@ namespace FSL.Next.Pages
             settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(json);
 
             var selected = Accounts.AccountsInfo.SelectedAccInfo;
-            string[] selectedL = selected.Split("|");
 
             dynamic account = null;
 
-            switch (selectedL[0])
+            switch (selected.Type)
             {
-                case "0":
-                    account = new OfflineAuthentication(selectedL[1]).OfflineAuth();
+                case "Offline":
+                    account = new OfflineAuthentication(selected.Offline_Name).OfflineAuth();
                     break;
-                case "1":
-                    account = await new MicrosoftAuthentication("e1e383f9-59d9-4aa2-bf5e-73fe83b15ba0") .MicrosoftAuthAsync(new GetTokenResponse(), refreshToken: selectedL[1] ,action: x=>
+                case "Microsoft":
+                    account = await new MicrosoftAuthentication("e1e383f9-59d9-4aa2-bf5e-73fe83b15ba0") .MicrosoftAuthAsync(new GetTokenResponse(), refreshToken: selected.Microsoft_RefreshToken ,action: x=>
                     {
                         progressText.Content = "正在验证账户：" + x;
                     });

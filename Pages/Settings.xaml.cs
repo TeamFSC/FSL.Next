@@ -25,6 +25,7 @@ using iNKORE.UI.WPF.Modern.Controls;
 using System.Reflection;
 
 using static FSL.Next.MainWindow;
+using static FSL.Next.Pages.Accounts;
 
 namespace FSL.Next.Pages
 {
@@ -99,8 +100,10 @@ namespace FSL.Next.Pages
                 {
                     Directory.CreateDirectory("./config");
                 }
+                
                 File.Create("./config/settings.fsl");
-                iNKORE.UI.WPF.Modern.Controls.MessageBox.Show("诶呀... FSL 无法解析你的设置配置文件，\n这可能是因为修改的配置文件格式不正确导致的。\n如果这是第一次使用，请重启更新。\n该文件已被重置，如有问题，请查看错误信息：\n\n" + ex, "解析设置配置失败", MessageBoxButton.OK, MessageBoxImage.Hand);
+
+                iNKORE.UI.WPF.Modern.Controls.MessageBox.Show("诶呀... FSL 无法解析你的设置配置文件，\n这可能是因为修改的配置文件格式不正确导致的。\n如果这是第一次使用，请重启更新。\n该文件已被重置。", "解析设置配置失败", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
         }
 

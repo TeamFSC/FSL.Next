@@ -62,10 +62,8 @@ namespace FSL.Next.Pages
 
         private void mbLucky_Click(object sender, RoutedEventArgs e)
         {
-            int seed = DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day;
+            int randomInt = LuckyValueGenerator.GenerateLuckyValue();
 
-            Random random = new Random(seed);
-            int randomInt = random.Next(-1, 101);
             string message = "FSL猜不出你的人品值...";
 
             if ( randomInt == 100)
@@ -101,7 +99,7 @@ namespace FSL.Next.Pages
                 message = "恭喜你，人品值是：\n0？？？ 反向欧皇（大喜）";
             }
 
-            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,"今日人品");
+            iNKORE.UI.WPF.Modern.Controls.MessageBox.Show(message,$"今日人品 - {DateTime.Now.Year}/{DateTime.Now.Month}/{DateTime.Now.Day}");
         }
 
         private void mbCrash_Click(object sender, RoutedEventArgs e)
