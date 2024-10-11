@@ -53,3 +53,10 @@ FSL.Next会从网络下载游戏的必要文件、模组（Mods）等。
   FSL.Next 作者 - awa_EricXHJ
 </div>
 
+<br>
+
+<div>
+  <img src="https://github.com/user-attachments/assets/969ec763-9482-4d73-b904-cb52a7f0aa93" height="50px"/>
+  技术支持 - _ZhiFeng_
+</div>
+
